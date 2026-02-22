@@ -86,7 +86,7 @@ function create(e) {
         quoteText.color = fellColor;
         game_over.color = fellColor;
     }
-    
+
     var soulType:Bool = PlayState.SONG.meta?.customValues?.gameover?.isMonster == true;
     var heartPath:String = soulType ? "game/gameover/monster_heart" : "game/gameover/heart";
     heart = new FunkinSprite().loadGraphic(Paths.image(heartPath));
@@ -174,7 +174,7 @@ function update(elapsed:Float){
     if (controls.BACK && gameOverEnd){
         if (FlxG.sound.music != null) FlxG.sound.music.stop();
 		FlxG.sound.music = null;
-        
+
         FlxG.switchState(PlayState.isStoryMode ? new StoryMenuState() : new FreeplayState());
     }
 
@@ -208,7 +208,7 @@ function endGameOver() {
         FlxTween.tween(whiteFlash, { alpha: 1 }, 3, { ease: FlxEase.sineOut });
 
         new FlxTimer().start(4, function() {
-            FlxG.switchState(new PlayState());
+            FlxG.switchState(new SongLoadingState());
         });
     });
 }

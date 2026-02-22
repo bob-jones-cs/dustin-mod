@@ -186,7 +186,7 @@ function create() {
                     var creditValue = Reflect.field(creditData, label);
 
                     var labelMargin:Float = 30;
-                    var valueMargin:Float = 40;  
+                    var valueMargin:Float = 40;
 
                     // LABEL ITSELF
                     var labelTxt = new FunkinText(0, 0, boxBG.width, textLabel + ":", 35, false);
@@ -424,7 +424,7 @@ function selectSong() {
                     curPortrait.playAnim('start', true);
 
                 curPortrait.offset.set(319, 308);
-                
+
 
                 new FlxTimer().start(2.5, function() {
 
@@ -436,16 +436,16 @@ function selectSong() {
 
                     FlxTween.num(0, 1, 2, {ease: FlxEase.sineInOut}, function(n) {
                         glitch.AMT = 0.01 + 0.01 * n;
-                        glitch.SPEED = 1 + 1 * n; 
+                        glitch.SPEED = 1 + 1 * n;
                     });
 
                     new FlxTimer().start(3.5, function() {
-                        FlxG.switchState(new PlayState());
+                        FlxG.switchState(new SongLoadingState());
                     });
                 });
 
                 });
-            } 
+            }
 
             else
             {
@@ -492,18 +492,18 @@ function selectSong() {
 
                     FlxTween.num(0, 1, 2, {ease: FlxEase.sineInOut}, function(n) {
                         glitch.AMT = 0.01 + 0.01 * n;
-                        glitch.SPEED = 1 + 1 * n; 
+                        glitch.SPEED = 1 + 1 * n;
                     });
 
                     new FlxTimer().start(2, function() {
-                        FlxG.switchState(new PlayState());
+                        FlxG.switchState(new SongLoadingState());
                     });
                 });
 
                 });
             }
     } else {
-        FlxG.switchState(new PlayState());
+        FlxG.switchState(new SongLoadingState());
     }
 }
 

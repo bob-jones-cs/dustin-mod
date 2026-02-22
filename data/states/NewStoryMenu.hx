@@ -103,7 +103,7 @@ function create() {
         screen.antialiasing = Options.antialiasing;
         selectScreens.push(screen);
 
-        if (FunkinSave.getWeekHighscore(i + "-1", "hard").score <= 0 && !FlxG.save.data.dustinSeenUnlockAnims.contains(i) && i != "dusttale") { // FunkinSave.getWeekHighscore(i + "-1", "hard").date == null && 
+        if (FunkinSave.getWeekHighscore(i + "-1", "hard").score <= 0 && !FlxG.save.data.dustinSeenUnlockAnims.contains(i) && i != "dusttale") { // FunkinSave.getWeekHighscore(i + "-1", "hard").date == null &&
             spritet.color = FlxColor.BLACK;
 
             var offset:Array<Int> = switch (i) {
@@ -270,7 +270,7 @@ function select(id:Int) {
 
                         if (locked) {
                             weekPlaylist.shift();
-                            FlxG.switchState(new PlayState());
+                            FlxG.switchState(new SongLoadingState());
                         } else
                             FlxG.switchState(new ModState("ChapterSelectionMenu", ut));
                     });

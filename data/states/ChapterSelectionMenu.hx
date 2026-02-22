@@ -54,7 +54,7 @@ function create() {
             songCard.updateHitbox();
 
             var boxOutline = new FunkinSprite().makeSolid(songCard.width + 5, songCard.height + 5, WHITE);
-    
+
             // need to swap these ideas around i think
             boxOutline.setPosition(chapterBox.x + 10 + sI * (cardSize + 20), FlxG.height / 2 - boxOutline.height / 2);
             songCard.setPosition(boxOutline.x + boxOutline.width / 2 - songCard.width / 2, boxOutline.y + boxOutline.height / 2 - songCard.height / 2);
@@ -166,7 +166,7 @@ function selectWeek() {
     PlayState.isStoryMode = true;
 
     PlayState.__loadSong(playList[0], data[0].difficulties[0]);
-    FlxG.switchState(new PlayState());
+    FlxG.switchState(new SongLoadingState());
 }
 
 function updateSelection(amt:Int) {
@@ -176,6 +176,6 @@ function updateSelection(amt:Int) {
         FlxG.sound.play(Paths.sound("menu/scroll"), 1);
 
     for (i => card in songCards) {
-        card.outline.color = i == curSelected ? YELLOW : WHITE; 
+        card.outline.color = i == curSelected ? YELLOW : WHITE;
     }
 }
