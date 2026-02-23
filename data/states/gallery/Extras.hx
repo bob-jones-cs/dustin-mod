@@ -32,6 +32,10 @@ var previewVideo:FlxVideoSprite;
 var previewText:FlxText;
 var groupLabel:FlxText;
 var canSelect:Bool = true;
+var selectedIdx:Int = 0;
+var focusMode:String = "keyboard";
+var prevMouseScreenX:Float = 0;
+var prevMouseScreenY:Float = 0;
 
 var leftArrow:FlxSprite;
 var rightArrow:FlxSprite;
@@ -183,6 +187,8 @@ function loadGalleryGroup(groupPath:String) {
     if (gallerySprites.length > 0) showPreview(0);
     maxCameraY = Math.max(0, offsetY - FlxG.height + margin);
     cameraY = 0;
+    selectedIdx = 0;
+    focusMode = "keyboard";
 
     groupLabel.text = Path.withoutDirectory(groupPath).toUpperCase();
 }
@@ -191,8 +197,39 @@ function update(elapsed:Float) {
     if (FlxG.mouse.wheel != 0) {
         cameraY -= FlxG.mouse.wheel * 20;
     }
+
+    var mouseEnabled = FlxG.save.data.disableMouse != true;
+    var colCount = 3;
+
+    if (gallerySprites.length > 0) {
+        if (controls.UP_P) {
+            selectedIdx = (selectedIdx - 1 + gallerySprites.length) % gallerySprites.length;
+            focusMode = "keyboard";
+            CoolUtil.playMenuSFX(0);
+        }
+        if (controls.DOWN_P) {
+            selectedIdx = (selectedIdx + 1) % gallerySprites.length;
+            focusMode = "keyboard";
+            CoolUtil.playMenuSFX(0);
+        }
+
+        if (focusMode == "keyboard") {
+            var spr = gallerySprites[selectedIdx];
+            var sprTop = spr.y - 64;
+            var sprBot = spr.y + 64;
+            if (sprTop < cameraY) cameraY = sprTop;
+            if (sprBot > cameraY + FlxG.height) cameraY = sprBot - FlxG.height;
+        }
+    }
+
     cameraY = Math.min(Math.max(0, cameraY), maxCameraY);
     FlxG.camera.scroll.set(0, cameraY);
+
+    var mouseScreenX = FlxG.mouse.screenX;
+    var mouseScreenY = FlxG.mouse.screenY;
+    var mouseMoved = mouseScreenX != prevMouseScreenX || mouseScreenY != prevMouseScreenY;
+    prevMouseScreenX = mouseScreenX;
+    prevMouseScreenY = mouseScreenY;
 
     var mouse = FlxG.mouse.getWorldPosition();
     for (i in 0...gallerySprites.length) {
@@ -200,15 +237,29 @@ function update(elapsed:Float) {
         var base = baseScales[i];
         var targetScale = base;
 
-        if (spr.overlapsPoint(mouse, true, FlxG.camera)) {
-            targetScale = base * ((spr.frameWidth * base + 20) / (spr.frameWidth * base));
-            if (FlxG.mouse.justPressed) {
-                showPreview(i);
+        var mouseHover = mouseEnabled && spr.overlapsPoint(mouse, true, FlxG.camera);
+        if (mouseHover && mouseMoved) {
+            if (focusMode != "mouse" || selectedIdx != i) {
+                selectedIdx = i;
+                focusMode = "mouse";
+                CoolUtil.playMenuSFX(0);
             }
+        }
+
+        if (i == selectedIdx) {
+            targetScale = base * ((spr.frameWidth * base + 20) / (spr.frameWidth * base));
+        }
+
+        if (mouseHover && FlxG.mouse.justPressed) {
+            showPreview(i);
         }
 
         FlxTween.tween(spr.scale, { x: targetScale, y: targetScale }, 0.1,
             { ease: FlxEase.quadInOut, type: FlxTween.ONESHOT });
+    }
+
+    if (controls.ACCEPT && gallerySprites.length > 0) {
+        showPreview(selectedIdx);
     }
 
     if (FlxG.keys.justPressed.RIGHT || FlxG.mouse.justPressed && FlxG.mouse.overlaps(rightArrow)) {
