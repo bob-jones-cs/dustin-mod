@@ -50,7 +50,8 @@ function startVideo(name:String, ?leCallback:Void->Void, ?ext:String, ?usePath:B
         FULL_VOLUME = false;
     }
 
-    add(skipText = new FunkinText(-28, FlxG.height - 50 - 6, FlxG.width, "Hold ENTER/LEFT CLICK to skip...").setFormat(Paths.font('8bit-jve.ttf'), 32, 0xffffffff, "right", FlxTextBorderStyle.OUTLINE, 0xff000000));
+    var skipLabel = FlxG.save.data.disableMouse == true ? "Hold ENTER to skip..." : "Hold ENTER/LEFT CLICK to skip...";
+    add(skipText = new FunkinText(-28, FlxG.height - 50 - 6, FlxG.width, skipLabel).setFormat(Paths.font('8bit-jve.ttf'), 32, 0xffffffff, "right", FlxTextBorderStyle.OUTLINE, 0xff000000));
     skipText.textField.antiAliasType = 0;
     skipText.textField.sharpness = 400;
     skipText.scrollFactor.set();
@@ -131,6 +132,6 @@ function onFinish() {
         for (i => cam in FlxG.cameras.list)
             cam.visible = oldVisible[i] ?? true;
     }
-    
+
     if (callback != null) callback();
 }
