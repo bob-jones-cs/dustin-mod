@@ -53,9 +53,9 @@ function update(elapsed:Float) {
                         menu.members[1].checked = Options.antialiasing;
                         menu.members[2].checked = Options.gameplayShaders;
 
-                        for (member in 0...menu.members.length) 
+                        for (member in 0...menu.members.length)
                             menu.members[member].locked = false;
-                        
+
                         menu.members[3].locked = qualitly <= 1;
                         menu.members[2].locked = qualitly <= 1;
 
@@ -111,7 +111,7 @@ function update(elapsed:Float) {
                             lowShadersTree.add(new Checkbox("Saturation Shaders", "Enable/Disable Saturation Shaders.", "saturation", null, FlxG.save.data));
                             lowShadersTree.add(new Checkbox("Impact Shaders", "Enable/Disable Impact Shaders.", "impact", null, FlxG.save.data));
                             spefShadersTree.parent.addMenu(lowShadersTree);
-                            
+
                             for (i => member in lowShadersTree.members)
                                 member.color = FlxColor.interpolate(0xFF88FF5D, 0xFFFFFFFF, i/lowShadersTree.members.length);
                         }));
@@ -128,6 +128,8 @@ function update(elapsed:Float) {
                     #if desktop
                     menu.add(new Checkbox("Genocides Swag", "Uncheck this if you cannot play Genocides. You'll loose a VERY swag surprise....", "gSwag", null, FlxG.save.data));
                     #end
+
+                    menu.add(new Checkbox("Disable Mouse", "Disable all mouse inputs. All menus are navigable via keyboard.", "disableMouse", null, FlxG.save.data));
 
                     if (!FileSystem.exists("dev.txt")) menu.members.shift();
 
