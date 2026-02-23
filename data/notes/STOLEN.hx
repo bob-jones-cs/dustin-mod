@@ -7,8 +7,6 @@ function onNoteUpdate(e:NoteUpdateEvent) {
 
     if (note.noteType != "STOLEN") return;
 
-    note.extra["overrideRating"] = "bad";
-
     if (note.extra["wasMoved"]) {
         note.extra["wasMoved"] = false;
         e.__reposNote = false;
@@ -27,7 +25,7 @@ function onNoteUpdate(e:NoteUpdateEvent) {
 
     var progress:Float = 1 - ((timeUntilNote - finishedWindow) / (startWindow - finishedWindow));
     progress = FlxEase.circInOut(FlxMath.bound(progress, 0, 1));
-    if (!FlxG.save.data.mechanics) progress = 1; 
+    if (!FlxG.save.data.mechanics) progress = 1;
 
     var lerpedX:Float = 0;
     if (timeUntilNote >= startWindow) {
