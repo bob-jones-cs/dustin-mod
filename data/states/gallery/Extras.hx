@@ -25,6 +25,8 @@ var baseScales:Array<Float> = [];
 
 var imagePathsNoExt:Array<String> = [];
 var imagePathsWithExt:Array<String> = [];
+var margin:Int = 30;
+var frameSize:Int = 128;
 
 var previewFrame:FlxSprite;
 var previewImage:FlxSprite;
@@ -137,8 +139,6 @@ function loadGalleryGroup(groupPath:String) {
     imagePathsWithExt = [];
 
     var colCount = 3;
-    var margin = 30;
-    var frameSize = 128;
     var offsetX = margin;
     var offsetY = margin;
     var colIndex = 0;
@@ -159,7 +159,7 @@ function loadGalleryGroup(groupPath:String) {
             spr.loadGraphic(Paths.image(pathNoExt, null, false, ext));
 
             var origW = spr.frameWidth, origH = spr.frameHeight;
-            var scale = Math.min(frameSize/origW, frameSize/origH,1);
+            var scale = Math.min(frameSize / origW, frameSize / origH,1);
             spr.scale.set(scale, scale);
             spr.centerOrigin();
             spr.updateHitbox();
@@ -168,8 +168,8 @@ function loadGalleryGroup(groupPath:String) {
             imagePathsNoExt.push(pathNoExt);
             imagePathsWithExt.push(pathWithExt);
 
-            spr.x = offsetX + frameSize/2;
-            spr.y = offsetY + frameSize/2;
+            spr.x = offsetX + frameSize / 2;
+            spr.y = offsetY + frameSize / 2;
 
             insert(members.indexOf(previewFrame), spr);
             gallerySprites.push(spr);
@@ -186,7 +186,7 @@ function loadGalleryGroup(groupPath:String) {
 
     if (gallerySprites.length > 0) showPreview(0);
     var totalHeight = colIndex > 0 ? offsetY + frameSize + margin : offsetY;
-    maxCameraY = Math.max(0, totalHeight - FlxG.height + margin);
+    maxCameraY = Math.max(0, totalHeight + frameSize / 2 - FlxG.height);
     cameraY = 0;
     selectedIdx = 0;
     focusMode = "keyboard";
@@ -216,8 +216,9 @@ function update(elapsed:Float) {
 
         if (focusMode == "keyboard") {
             var spr = gallerySprites[selectedIdx];
-            var sprTop = spr.y - 64;
-            var sprBot = spr.y + 64;
+            var halfFrame = frameSize / 2;
+            var sprTop = spr.y - halfFrame - margin;
+            var sprBot = spr.y + spr.height + margin;
             if (sprTop < cameraY) cameraY = sprTop;
             if (sprBot > cameraY + FlxG.height) cameraY = sprBot - FlxG.height;
         }
