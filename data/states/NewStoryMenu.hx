@@ -68,7 +68,18 @@ glitch.AMT = 0.7;
 
 var canInput:Bool = true;
 
+var focusRow:Int = 0;
+var focusCol:Int = 0;
+var topIdx:Int = 0;
+var bottomIdxs:Array = [];
+var focusIdx:Int = 0;
+var focusMode:String = "keyboard";
+
 function create() {
+    focusRow = 0;
+    focusCol = 0;
+    focusIdx = 0;
+    focusMode = "keyboard";
     CoolUtil.playMenuSong();
     weeks.weeks.sort((a, b) -> return Std.parseInt(a.id.split("-")[1]) - Std.parseInt(b.id.split("-")[1]));
     for (week in weeks.weeks) {
@@ -134,6 +145,17 @@ function create() {
         }
     }
 
+    topIdx = 0;
+    bottomIdxs = [];
+    for (i in thoseWhoKnowGroup.members) {
+        if (i.y < 300) topIdx = i.ID;
+        else bottomIdxs.push(i.ID);
+    }
+    bottomIdxs.sort((a, b) -> {
+        return Std.int(thoseWhoKnowGroup.members[a].x - thoseWhoKnowGroup.members[b].x);
+    });
+    focusIdx = topIdx;
+
     add(text = new FlxSprite().loadGraphic(Paths.image("menus/freeplay/text")));
     text.antialiasing = Options.antialiasing;
 
@@ -181,24 +203,79 @@ function update(elapsed) {
     if (doneUnlock) {
         iTime += elapsed;
         FlxG.sound.music.volume = lerp(FlxG.sound.music.volume, 1, 0.04);
-        var mouseInHalf = FlxG.mouse.y >= 400;
-        for (i in thoseWhoKnowGroup.members) {
-            thoseWhoKnow[thoseWhoKnowTemp[i.ID]][2] = (!mouseInHalf && i.y > 300) || (mouseInHalf && i.y < 300) ? 0.95 : 1;
 
-            if (FlxG.mouse.overlaps(i)) {
-                if (i.color != FlxColor.BLACK) {
-                    thoseWhoKnow[thoseWhoKnowTemp[i.ID]][2] += 0.05;
-                    i.playAnim("selected");
-                    if (FlxG.mouse.justReleased && Main.timeSinceFocus > 0.25 && canInput) select(i.ID);
+        var mouseEnabled = FlxG.save.data.disableMouse != true;
+
+        if (canInput) {
+            var kbMoved = false;
+            if (controls.UP_P && focusRow != 0) {
+                focusRow = 0;
+                kbMoved = true;
+            }
+            if (controls.DOWN_P && focusRow != 1) {
+                focusRow = 1;
+                kbMoved = true;
+            }
+            if (controls.LEFT_P && focusRow == 1) {
+                focusCol = (focusCol - 1 + bottomIdxs.length) % bottomIdxs.length;
+                kbMoved = true;
+            }
+            if (controls.RIGHT_P && focusRow == 1) {
+                focusCol = (focusCol + 1) % bottomIdxs.length;
+                kbMoved = true;
+            }
+
+            if (kbMoved) {
+                focusMode = "keyboard";
+                focusIdx = focusRow == 0 ? topIdx : bottomIdxs[focusCol];
+                CoolUtil.playMenuSFX(0);
+            }
+
+            if (mouseEnabled && FlxG.mouse.justMoved) {
+                focusMode = "mouse";
+                for (i in thoseWhoKnowGroup.members) {
+                    if (FlxG.mouse.overlaps(i) && i.color != FlxColor.BLACK) {
+                        if (focusIdx != i.ID) {
+                            focusIdx = i.ID;
+                            CoolUtil.playMenuSFX(0);
+                        }
+                    }
                 }
+            }
+        }
+
+        var focusBottom = thoseWhoKnowGroup.members[focusIdx].y >= 300;
+
+        for (i in thoseWhoKnowGroup.members) {
+            thoseWhoKnow[thoseWhoKnowTemp[i.ID]][2] = (!focusBottom && i.y > 300) || (focusBottom && i.y < 300) ? 0.95 : 1;
+
+            if (i.ID == focusIdx && i.color != FlxColor.BLACK) {
+                thoseWhoKnow[thoseWhoKnowTemp[i.ID]][2] += 0.05;
+                i.playAnim("selected");
             }
             else i.playAnim("idle");
 
             i.scale.x = i.scale.y = lerp(i.scale.y, thoseWhoKnow[thoseWhoKnowTemp[i.ID]][2], 0.2);
         }
 
-        pillars1.scale.x = pillars1.scale.y = lerp(pillars1.scale.y, !mouseInHalf ? 1 : 1.01, 0.2);
-        pillars2.scale.x = pillars2.scale.y = lerp(pillars2.scale.y, !mouseInHalf ? 1.01 : 1, 0.2);
+        if (canInput && Main.timeSinceFocus > 0.25) {
+            if (mouseEnabled && FlxG.mouse.justReleased) {
+                for (i in thoseWhoKnowGroup.members) {
+                    if (FlxG.mouse.overlaps(i) && i.color != FlxColor.BLACK) {
+                        select(i.ID);
+                    }
+                }
+            }
+
+            if (controls.ACCEPT) {
+                if (thoseWhoKnowGroup.members[focusIdx].color != FlxColor.BLACK) {
+                    select(focusIdx);
+                }
+            }
+        }
+
+        pillars1.scale.x = pillars1.scale.y = lerp(pillars1.scale.y, !focusBottom ? 1 : 1.01, 0.2);
+        pillars2.scale.x = pillars2.scale.y = lerp(pillars2.scale.y, !focusBottom ? 1.01 : 1, 0.2);
 
         FlxG.camera.scroll.set();
         FlxG.camera.angle = 0;
