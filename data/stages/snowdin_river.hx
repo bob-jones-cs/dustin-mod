@@ -79,11 +79,12 @@ function postCreate() {
     camGame.removeShader(screenVignette);
     if (Options.gameplayShaders) camHUD2.addShader(screenVignette);
 
-    snowShader.snowMeltRect = [-700, 460, 1500, 100]; 
-    snowShader2.snowMeltRect = [-700, 460, 1500, 100]; 
+    snowShader.snowMeltRect = [-700, 460, 1500, 100];
+    snowShader2.snowMeltRect = [-700, 460, 1500, 100];
 }
 
-var __timer:Float = 0; 
+var __timer:Float = 0;
+var __camCharsArray:Array<FlxCamera>;
 function update(elapsed:Float) {
     __timer += elapsed;
     fogShader.time = __timer;
@@ -97,9 +98,10 @@ function update(elapsed:Float) {
     camCharacters.zoom = FlxG.camera.zoom;
     camCharacters.angle = FlxG.camera.angle;
 
+    if (__camCharsArray == null) __camCharsArray = [camCharacters];
     for (strum in strumLines)
         for (char in strum.characters)
-            char.cameras = [camCharacters];
+            char.cameras = __camCharsArray;
 }
 
 function onStageXMLParsed(actualEvent) {
