@@ -185,7 +185,8 @@ function loadGalleryGroup(groupPath:String) {
     }
 
     if (gallerySprites.length > 0) showPreview(0);
-    maxCameraY = Math.max(0, offsetY - FlxG.height + margin);
+    var totalHeight = colIndex > 0 ? offsetY + frameSize + margin : offsetY;
+    maxCameraY = Math.max(0, totalHeight - FlxG.height + margin);
     cameraY = 0;
     selectedIdx = 0;
     focusMode = "keyboard";
