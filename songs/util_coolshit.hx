@@ -1,3 +1,4 @@
+import funkin.game.NoteSyncHelper;
 //
 static var hudElements:Array<FlxBasic> = [];
 static var camHUD2:FlxCamera = null;
@@ -15,32 +16,27 @@ function create() {
 
 function update(elapsed:Float) {
     camHUD2.visible = true;
-    for (strumLine in strumLines) {
-        strumLine.notes.forEachAlive(function (note:Note) {
-            note.alpha = strumLine.members[note.noteData%4].alpha * (note.isSustainNote ? 0.6 : 1);
-            if (note.health != -1) note.angle = strumLine.members[note.noteData%4].angle;
-        });
-    }
+    NoteSyncHelper.syncNotesToReceptors(strumLines, 0.6, true);
 }
 
 // cause sojas flixel is brainrot
 public function insert_camera(newCamera:FlxCamera, position:Int, defaultDrawTarget = true):T {
     if (position < 0)
         position += FlxG.cameras.list.length;
-    
+
     if (position >= FlxG.cameras.list.length)
         return FlxG.cameras.add(newCamera);
-    
+
     final childIndex = FlxG.game.getChildIndex(FlxG.cameras.list[position].flashSprite);
     FlxG.game.addChildAt(newCamera.flashSprite, childIndex);
-    
+
     FlxG.cameras.list.insert(position, newCamera);
     if (defaultDrawTarget)
         FlxG.cameras.defaults.push(newCamera);
-    
+
     for (i in position...(FlxG.cameras.list.length))
         FlxG.cameras.list[i].ID = i;
-    
+
     FlxG.cameras.cameraAdded.dispatch(newCamera);
     return newCamera;
 }
