@@ -17,12 +17,14 @@ var lyricsConfig = {
 }
 
 var textGroup:FlxTypedGroup;
+var __cachedFont:String;
 
 function create()
 {
     textGroup = new FlxTypedGroup();
     textGroup.cameras = [camHUD2];
     add(textGroup);
+    __cachedFont = getFont();
 }
 
 function onEvent(eventEvent) {
@@ -42,6 +44,7 @@ function onEvent(eventEvent) {
 
         case "Set Font":
             lyricsConfig.font = eventEvent.event.params[1];
+            __cachedFont = getFont();
 
         case "Set Size":
             lyricsConfig.size = eventEvent.event.params[1];
@@ -80,10 +83,10 @@ function addText(setText)
             textGroup.remove(i, true);
             i.destroy();
         }
-        
+
     }
     var text = new FlxText(0, 500);
-    text.setFormat(getFont(), lyricsConfig.size, lyricsConfig.color, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, lyricsConfig.borderColor);
+    text.setFormat(__cachedFont, lyricsConfig.size, lyricsConfig.color, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, lyricsConfig.borderColor);
     text.borderSize = lyricsConfig.borderSize;
     text.text = setText;
     text.screenCenter(FlxAxes.X);
