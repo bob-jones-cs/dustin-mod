@@ -27,8 +27,8 @@ function postCreate() {
 
 function stepHit(step:Int) {
     switch (step) {
-        case 544: 
-            time = 0; 
+        case 544:
+            time = 0;
             if (FlxG.save.data.mechanics) {
                 doPapModChart = doSineChart = true;
             }
@@ -38,14 +38,14 @@ function stepHit(step:Int) {
 
             heart.colorTransform.color = 0xFF003cff; heart.visible = true;
             FlxG.sound.play(Paths.sound('soul_transformation'), .75);
-        case 800: 
+        case 800:
             if (FlxG.save.data.mechanics) {
                 doPapModChart = false; doSineChart = false;
             }
             pluey = 0;
             heart.colorTransform.color = 0xffff0000;
         case 832: if (FlxG.save.data.mechanics) doSansMechanicSustains = true;
-        case 1000: 
+        case 1000:
             if (FlxG.save.data.mechanics) {
                 doSineChart = true;
                 doSansMechanicNormal = true;
@@ -102,13 +102,10 @@ function update(elapsed:Float) {
     bones.alpha = FlxMath.lerp(bones.alpha, doSineChart ? .75 : 1, 1/50);
     time += elapsed;
 
-    var tweenedObjects:Array<Dynamic> = [];
     modChartTweens.update(elapsed);
-    for (tween in modChartTweens._tweens)
-        tweenedObjects.push(tween._object);
 
     for (i=>strum in strumLines.members[1].members) {
-        if (!tweenedObjects.contains(strum)) {
+        if (strum.health != -1) {
             strum.x = normalStrumPoses[1][i][0];
             strum.y = normalStrumPoses[1][i][1];
             strum.angle = 0;
@@ -174,7 +171,7 @@ function onNoteUpdate(e:NoteUpdateEvent) {
 
         var progress:Float = 1-((note.strumTime - (Conductor.songPosition+timeToUse))/2000);
         note.y = FlxMath.lerp(nextNoteIsSustain ? 3200 : 5300, posy, FlxEase.quadIn(progress));
-        
+
         // var progress2:Float = FlxEase.circOut(1-(note.strumTime - ((Conductor.songPosition+(timeToUse*1.3))))/1000);
         // note.x = FlxMath.lerp((note.noteData > 1) ? 120 : -120, posx, FlxEase.quadIn(progress));
     }
