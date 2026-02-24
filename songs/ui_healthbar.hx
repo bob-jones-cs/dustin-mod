@@ -16,6 +16,7 @@ static var ogHealthColors:Array<Int> = [0xFF000000, 0xFF000000];
 static var healthBarColors:Array<Int> = [0xFF000000, 0xFF000000];
 var __lerpColor:FlxInterpolateColor;
 var cahceRect:FlxRect = new FlxRect();
+var __tweenCallback;
 public var reverseIcons:Bool = false;
 
 function postCreate() {
@@ -75,6 +76,7 @@ function postCreate() {
     };
 
     __lerpColor = new FlxInterpolateColor(ogHealthColors[1]);
+    __tweenCallback = (val:Float) -> {__ratio = val;};
 }
 
 static function createHealthBG(image:String):FlxSprite {
@@ -115,25 +117,33 @@ function update(elapsed:Float) {
     icon1.x = healthBarX + (healthBarW * hpPercent) + 2;
     icon2.x = healthBarX + (healthBarW * hpPercent) - icon2.width - 2;
 
-    for (icon in [icon1, icon2]) {
-        icon.y = ((dustinHealthBar.y + dustinHealthBar.height/2) - icon.height/2) - (camHUD.downscroll ? 0 : 20);
-    }
+    var iconBaseY:Float = (dustinHealthBar.y + dustinHealthBar.height/2) - (camHUD.downscroll ? 0 : 20);
+    icon1.y = iconBaseY - icon1.height/2;
+    icon2.y = iconBaseY - icon2.height/2;
 
     icon1.animation.curAnim.curFrame = reverseIcons ? (healthPrecent > 65 ? 1 : 0) : (healthPrecent < 35 ? 1 : 0);
     icon2.animation.curAnim.curFrame = reverseIcons ? (healthPrecent < 35 ? 1 : 0) : (healthPrecent > 65 ? 1 : 0);
 
-    if (icon1.shader != null) icon1.shader.ratio = __ratio;
-    if (icon2.shader != null) icon2.shader.ratio = __ratio;
+    if (__ratio != __lastRatio) {
+        if (icon1.shader != null) icon1.shader.ratio = __ratio;
+        if (icon2.shader != null) icon2.shader.ratio = __ratio;
 
-    __lerpColor.color = hurtColor; // same as icon.shader.color
-    __lerpColor.lerpTo(ogHealthColors[1], Math.abs(1-__ratio));
-    healthBarColors[1] = __lerpColor.color;
+        if (__ratio > 0) {
+            __lerpColor.color = hurtColor;
+            __lerpColor.lerpTo(ogHealthColors[1], Math.abs(1-__ratio));
+            healthBarColors[1] = __lerpColor.color;
+        } else {
+            healthBarColors[1] = ogHealthColors[1];
+        }
+        __lastRatio = __ratio;
+    }
 
     __lastHealth = FlxMath.bound(health, 0, maxHealth);
 }
 
 var __healthTween:FlxTween;
 var __ratio:Float = 0;
+var __lastRatio:Float = 0;
 function postUpdate(elapsed:Float) {
     if(noMissIconAnim) return;
 
@@ -141,7 +151,7 @@ function postUpdate(elapsed:Float) {
         healthLossTimer = healthLossCooldown;
 
         if (__healthTween != null) __healthTween.cancel();
-        __healthTween = FlxTween.num(.75, 0, healthLossCooldown*4, {}, (val:Float) -> {__ratio = val;});
+        __healthTween = FlxTween.num(.75, 0, healthLossCooldown*4, null, __tweenCallback);
     }
 
     healthLossTimer -= elapsed;
