@@ -98,6 +98,7 @@ function beatHit(beat:Int) {
 }
 
 var time:Float = 0;
+var __lastPluey:Float = -2;
 function update(elapsed:Float) {
     bones.alpha = FlxMath.lerp(bones.alpha, doSineChart ? .75 : 1, 1/50);
     time += elapsed;
@@ -130,7 +131,8 @@ function update(elapsed:Float) {
         case "singRIGHT" | "singRIGHTmiss": heart.x += 110; heart.y += 5;
     }
 
-    if (pluey != -1) {
+    if (pluey != -1 && pluey != __lastPluey) {
+        __lastPluey = pluey;
         var strumColor:FlxColor = FlxColor.interpolate(0xFFFFFFFF, 0xFF2C61FF, pluey);
         for (i=>strum in strumLines.members[1].members)
             strum.color = strumColor;
