@@ -33,11 +33,6 @@ function onEvent(eventEvent) {
 
             for (strum in cpuStrums.members)
                 if (strum != null) strum.alpha = targetAlpha;
-
-            for (strumLine in strumLines)
-                for (note in strumLine.notes)
-                    note.alpha = targetAlpha;
-
         } else {
             // Tween alpha
             if (hudTween != null) hudTween.cancel();
@@ -60,10 +55,6 @@ function onEvent(eventEvent) {
             for (strum in cpuStrums.members)
                 if (strum != null)
                     FlxTween.tween(strum, {alpha: targetAlpha}, duration, {ease: easeFunc});
-
-            for (strumLine in strumLines)
-                for (note in strumLine.notes)
-                    FlxTween.tween(note, {alpha: targetAlpha}, duration, {ease: easeFunc});
         }
     }
 }
