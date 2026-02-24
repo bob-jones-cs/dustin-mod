@@ -13,7 +13,7 @@ function create() {
     if (Options.gameplayShaders && FlxG.save.data.water) FlxG.camera.addShader(heat2);
     heat2.strength = 0;
 }
-function postCreate() {    
+function postCreate() {
     before = strumLineBfZoom;
     strumLineBfZoom = 1.4;
 
@@ -128,7 +128,7 @@ function stepHit(step:Int) {
         case 1360:
             stage.getSprite("muffet").playAnim("die");
             FlxG.camera.shake(0.01, 0.2);
-            
+
         case 1368:
             FlxTween.tween(muffet, {alpha: 0}, 0.5, {ease: FlxEase.quadOut});
 
@@ -187,9 +187,6 @@ function update(elapsed:Float){
 
             insert(members.indexOf(boyfriend), trail);
             boyfriendTrails.push(trail);
-
-
-            if (trail != null) boyfriendTrails.push(trail);
         }
 
         for (trail in boyfriendTrails.copy()) {
