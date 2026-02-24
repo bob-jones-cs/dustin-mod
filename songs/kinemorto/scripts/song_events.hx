@@ -36,12 +36,12 @@ function postCreate() {
 
     blackwhite = new CustomShader("blackwhite");
     blackwhite.grayness = 0;
-    if (Options.gameplayShaders) 
+    if (Options.gameplayShaders)
         for (cam in [FlxG.camera, camHUD, camCharacters]) cam.addShader(blackwhite);
 
     oldstatic = new CustomShader("static");
     oldstatic.time = 0; oldstatic.strength = 0;
-    if (Options.gameplayShaders && FlxG.save.data.static) 
+    if (Options.gameplayShaders && FlxG.save.data.static)
         for (cam in [FlxG.camera, camHUD, camCharacters]) cam.addShader(oldstatic);
 
     warp = new CustomShader("warp");
@@ -87,12 +87,6 @@ function update(elapsed:Float) {
     papyrusNutting.screenCenter();
     papyrusNutting.x += FlxG.random.float(-10, 10);
     papyrusNutting.y += FlxG.random.float(-10, 10);
-
-    dad.animation.finishCallback = function(animName:String) {
-        if (animName == "intro") {
-            dad.playAnim("intro2");
-        }
-    };
 }
 
 function stepHit(step:Int) {
@@ -115,8 +109,8 @@ function stepHit(step:Int) {
                     dad.playAnim("stoopidDeath3");
                 }
             };
-        case 2: doHealthbarFade = false; 
-        case 96: FlxG.camera.followLerp = 0.06; 
+        case 2: doHealthbarFade = false;
+        case 96: FlxG.camera.followLerp = 0.06;
         case 106: FlxG.camera.followLerp = 0.04;
         case 312 | 672:
             FlxTween.num(.3, 0, (Conductor.stepCrochet / 1000) * 6, {ease: FlxEase.cubeIn}, (val:Float) -> {water.strength = val;});
@@ -189,7 +183,7 @@ function stepHit(step:Int) {
             if(oldstatic != null) FlxTween.num(3, 2, (Conductor.stepCrochet / 1000) * 4, {ease: FlxEase.quadOut}, (val:Float) -> {oldstatic.strength = val;});
             FlxTween.num(.03, 0.019, (Conductor.stepCrochet / 1000) * 4, {ease: FlxEase.cubeIn}, (val:Float) -> {radial.blur = val;});
 
-        case 936: 
+        case 936:
             FlxG.camera.followLerp = 0.17;
             camMoveOffset = 30;
         case 942:
@@ -246,7 +240,7 @@ function stepHit(step:Int) {
         FlxTween.num(.01, .001, (Conductor.stepCrochet / 1000) * 4, {ease: FlxEase.cubeOut}, (val:Float) -> {radial.blur = val;});
         FlxTween.num(.5, .0, (Conductor.stepCrochet / 1000) * 4, {ease: FlxEase.quadIn}, (val:Float) -> {warp.distortion = val;});
         FlxTween.num(.14, 0, (Conductor.stepCrochet / 1000) * 4, {ease: FlxEase.cubeIn}, (val:Float) -> {chromWarp.distortion = val;});
-    } 
+    }
 }
 
 var time:Float = 0;
@@ -296,7 +290,7 @@ function epicimpact() {
 
         snowShader.BRIGHT = 1.4;
         snowShader2.BRIGHT = 1.4;
-        fogShader.INTENSITY = 1.56; 
+        fogShader.INTENSITY = 1.56;
         if (Options.gameplayShaders) camCharacters.addShader(radial);
         camCharacters.removeShader(chromWarp);
 
@@ -310,7 +304,7 @@ function epicimpact() {
             impact.threshold = -1;
             snowShader.BRIGHT = 2;
             snowShader2.BRIGHT = 2;
-            fogShader.INTENSITY = 1.3; 
+            fogShader.INTENSITY = 1.3;
             camCharacters.removeShader(radial);
             if (Options.gameplayShaders) camCharacters.addShader(chromWarp);
 
