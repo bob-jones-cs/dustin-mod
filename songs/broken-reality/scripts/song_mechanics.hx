@@ -36,7 +36,7 @@ function update(elapsed:Float) {
 
     hudX = lerp(hudX, desiredHudX, FlxEase.sineInOut(.2));
     moveHUD(hudX, hudY + hudOffY);
-    
+
     if (pluey != -1) {
         var strumColor:FlxColor = FlxColor.interpolate(0xFFFFFFFF, 0xFF83A2FF, pluey);
         for (i=>strum in strumLines.members[1].members)
@@ -156,6 +156,8 @@ public var desiredMultY:Float = 1;
 public var negMultY:Float = 1;
 function onNoteUpdate(e:NoteUpdateEvent) {
     e.__reposNote = false;
+    e.note.__strum = e.strum;
+    e.note.strumRelativePos = false;
     var note:Note = e.note;
 
     var baseScrollFactor:Float = 0.45 * CoolUtil.quantize(scrollSpeed, 100);
@@ -168,7 +170,7 @@ function onNoteUpdate(e:NoteUpdateEvent) {
 
     if (note.isSustainNote) {
         note.health = negMultX < 0 ? -1 : 1;
-        note.angle = 90 * negMultX; 
+        note.angle = 90 * negMultX;
         if (note.animation.name == "holdend") {
             note.scale.y = negMultY;
             note.y -= Math.min(0, negMultY)*110;
