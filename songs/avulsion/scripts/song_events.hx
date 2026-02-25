@@ -130,6 +130,7 @@ function stepHit(step:Int) {
             hurtColor = 0xFFFF0000;
             if (Options.gameplayShaders) dustiniconP1.shader.color = [1., 0., 0.];
 
+            if (Options.botPlay) return;
             health = 2; // DISABLE ON HELL IF IT EVER COMES OUT -lunar
             drainHealth = true;
             FlxG.camera.shake(0.01, 0.4);
@@ -150,6 +151,7 @@ function stepHit(step:Int) {
         case 2160:
             FlxTween.tween(dad, {alpha: 0}, (Conductor.stepCrochet / 1000) * 16, {ease: FlxEase.quadOut});
         case 2116:
+            if (Options.botPlay) return;
             FlxTween.num(.46, .66, 10, {ease: FlxEase.quadIn}, (val:Float) -> {drainAmount = val;});
 
             FlxG.camera.shake(0.004, 11);
@@ -258,7 +260,7 @@ function update(elapsed:Float) {
         lastGFOffX = 1;
     }
 
-    if (drainHealth && FlxG.save.data.mechanics) {
+    if (drainHealth && FlxG.save.data.mechanics && !Options.botPlay) {
         health -= (drainAmount*.96) * elapsed;
         if (FlxG.keys.justPressed.SPACE) health += gainAmount;
     }
