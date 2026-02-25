@@ -26,6 +26,11 @@ function create()
     textGroup.cameras = [camHUD2];
     add(textGroup);
     __cachedFont = getFont();
+    for (_ in 0...3) {
+        var t = new FlxText(0, 500);
+        t.cameras = [camHUD2];
+        textPool.push(t);
+    }
 }
 
 function onEvent(eventEvent) {
