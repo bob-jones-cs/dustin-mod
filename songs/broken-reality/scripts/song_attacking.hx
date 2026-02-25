@@ -83,6 +83,11 @@ var targetDesiredX:Float = 0;
 var inAttack:Bool = false;
 function doAttack() {
     if (inAttack) return;
+    if (Options.botPlay) {
+        didDamage = true;
+        judgeRating = JUDGE_GREEN;
+        return;
+    }
     inAttack = true;
     targetDesiredX = -.5; judgeRating = JUDGE_MISS;
 
@@ -131,7 +136,7 @@ function endAttack() {
     });
     FlxG.camera.stopFX();
 
-    flickerSprite.alpha = 0; 
+    flickerSprite.alpha = 0;
     chromWarp.distortion = 0; warp.distortion = 0;
     lightShader.bright = 1; dust.BRIGHT = 10; impact.threshold = -1;
 
@@ -164,7 +169,7 @@ function judgeHealth():Float {
         case JUDGE_GREEN: health += .63 * Math.max(1, drainAmount*.47);
         case JUDGE_YELLOW: health += .45 * Math.max(1, drainAmount*.47);
         case JUDGE_RED: health += .24 * Math.max(1, drainAmount*.47);
-        default: 
+        default:
     }
 }
 
@@ -229,7 +234,7 @@ function undertale_update(elapsed:Float) {
         dad.x = FlxMath.lerp(dad.x, desiredDadX, FlxEase.sineIn(.46));
         dad.y = FlxMath.lerp(dad.y, desiredDadY, FlxEase.sineIn(.46));
     }
-    
+
     target.scale.x = FlxMath.lerp(target.scale.x, desiredScale, FlxEase.sineIn(.42));
     target.alpha = FlxMath.lerp(target.alpha, desiredScale, FlxEase.sineIn(.42));
     target_text.alpha = target.alpha;
@@ -300,7 +305,7 @@ function update(elapsed:Float) {
         }
 
         if (boyfriend.animation.frameIndex == 103) {
-            desiredDadX = 5170 + 200; desiredDadY = 2700 + 70; 
+            desiredDadX = 5170 + 200; desiredDadY = 2700 + 70;
         }
         if (boyfriend.animation.frameIndex == 107) {
             warp.distortion = 4;
@@ -323,7 +328,7 @@ function update(elapsed:Float) {
             FlxG.sound.play(Paths.sound("undertale/snd_noise"), .3, false, null, true, 1.3);
         }
         if (boyfriend.animation.frameIndex == 128) { // teleport back
-            desiredDadX = 5170; desiredDadY = 2700; 
+            desiredDadX = 5170; desiredDadY = 2700;
 
             flickerSprite.alpha = 0;
             FlxG.sound.play(Paths.sound("undertale/snd_noise"), .3, false, null, true, 1.3);
