@@ -42,7 +42,7 @@ function postCreate() {
     redOverlayHUD.alpha = 0;
     redOverlayHUD.cameras = [camGame];
 
-    insert(members.indexOf(dad), redOverlayHUD); 
+    insert(members.indexOf(dad), redOverlayHUD);
 
     flickerSprite = new FunkinSprite().makeSolid(FlxG.width, FlxG.height, 0xFF000000);
     flickerSprite.scrollFactor.set(0, 0);
@@ -69,7 +69,7 @@ function postCreate() {
     }
 
     var papAnim:FlxAnimation = gf.animation.getByName("1");
-    papAnim.frames = [for (i in 0...1170) i]; 
+    papAnim.frames = [for (i in 0...1170) i];
 
     gf.cameras = [camPaps];
     camPaps.visible = false;
@@ -105,11 +105,11 @@ function stepHit(step:Int) {
             FlxG.camera.shake(0.01, 0.55);
 
             FlxTween.num(1, .13, (Conductor.stepCrochet / 1000) * 4, {ease: FlxEase.quadOut}, (val:Float) -> {static2.strengthMulti = val;});
-        case 848: 
+        case 848:
             static2.strengthMulti *= 0.75;
             oldstatic.strength *= 0.75;
             flickerSprite.alpha *= 0.75;
-        case 848: 
+        case 848:
             static2.strengthMulti *= 1.25;
             oldstatic.strength *= 1.25;
             flickerSprite.alpha *= 1.25;
@@ -122,11 +122,11 @@ function stepHit(step:Int) {
             camZoomMult = 0.9;
         case 1812:
             camPaps.removeShader(bloom);
-        case 2084: 
+        case 2084:
             FlxG.camera.shake(0.01, 0.2);
             FlxTween.tween(gf, {alpha: 0}, (Conductor.stepCrochet / 1000) * 4, {ease: FlxEase.quadOut});
             clearTrails();
-        case 2109: 
+        case 2109:
             hurtColor = 0xFFFF0000;
             if (Options.gameplayShaders) dustiniconP1.shader.color = [1., 0., 0.];
 
@@ -139,7 +139,7 @@ function stepHit(step:Int) {
             FlxTween.tween(dustinHealthBG, {alpha: 1}, (Conductor.stepCrochet / 1000) * 8, {ease: FlxEase.quadOut});
             FlxTween.tween(dustinHealthBar, {alpha: 1}, (Conductor.stepCrochet / 1000) * 8, {ease: FlxEase.quadOut});
             FlxTween.tween(dustiniconP1, {alpha: 1}, (Conductor.stepCrochet / 1000) * 8, {ease: FlxEase.quadOut});
-            
+
         case 2110:
             cinematicBar1.cameras = [camHUD2];
             cinematicBar2.cameras = [camHUD2];
@@ -149,11 +149,11 @@ function stepHit(step:Int) {
             insert(9999, cinematicBar2);
         case 2160:
             FlxTween.tween(dad, {alpha: 0}, (Conductor.stepCrochet / 1000) * 16, {ease: FlxEase.quadOut});
-        case 2116: 
+        case 2116:
             FlxTween.num(.46, .66, 10, {ease: FlxEase.quadIn}, (val:Float) -> {drainAmount = val;});
 
-            FlxG.camera.shake(0.004, 11); 
-            camHUD.shake(0.004, 11); 
+            FlxG.camera.shake(0.004, 11);
+            camHUD.shake(0.004, 11);
             FlxTween.tween(redOverlayHUD, {alpha:1}, 10, {ease: FlxEase.quadIn});
             FlxTween.num(0, 1, 10, {ease: FlxEase.quadIn}, (val:Float) -> {chromWarp.distortion = val;});
             FlxTween.num(0, 2.4, 10, {ease: FlxEase.circOut}, (val:Float) -> {warp.distortion = val;});
@@ -207,9 +207,10 @@ function update(elapsed:Float) {
         dad24FPS.y = (1100 + bobY*.4);
     }
 
-    for (paptrail in papsTrails) {
+    for (ti => paptrail in papsTrails) {
+        var offsets = papsTrailOffsets[ti];
         for (i => trail in paptrail.members) {
-            var scale = FlxMath.bound(2.2 + .1 + (.1 * FlxMath.fastSin(__coolTimer + (i * FlxG.random.float((Conductor.stepCrochet / 1000) * 0.5, (Conductor.stepCrochet / 1000) * 1.2)))), 0.9, 999);
+            var scale = FlxMath.bound(2.3 + (.1 * FlxMath.fastSin(__coolTimer + offsets[i])), 0.9, 999);
             trail.scale.set(scale, scale);
         }
     }
@@ -293,7 +294,7 @@ function lyrics() {
     camPaps.angle = 0;
     // cinematicBar1.cameras = [camPaps];
     // cinematicBar2.cameras = [camPaps];
-    
+
     // remove(cinematicBar1);
     // remove(cinematicBar2);
     // insert(9999, cinematicBar1);
@@ -315,11 +316,15 @@ function onCameraMove(_) {
 }
 
 var papsTrails:Array<FlxTrail> = [];
+var papsTrailOffsets:Array<Array<Float>> = [];
 function spawnPapsTrail(sprite:FlxSprite) {
     trail = new FlxTrail(sprite, null, 12, 4, 0.25, 0.045);
     trail.color = 0xFFFFFFFF;
     insert(members.indexOf(sprite), trail);
     papsTrails.push(trail);
+    var stepSec = Conductor.stepCrochet / 1000;
+    var offsets:Array<Float> = [for (i in 0...trail.members.length) i * FlxG.random.float(stepSec * 0.5, stepSec * 1.2)];
+    papsTrailOffsets.push(offsets);
     trail.cameras = [camPaps];
     // trail.rotationsEnabled = false;
     return trail;
@@ -332,6 +337,7 @@ function clearTrails() {
     }
 
     papsTrails = [];
+    papsTrailOffsets = [];
 }
 
 
