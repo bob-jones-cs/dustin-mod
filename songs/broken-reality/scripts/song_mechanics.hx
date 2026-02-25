@@ -19,7 +19,7 @@ public var drainAmount:Float = 1.2;
 public var pluey:Float = 0;
 public var hudOffY:Float = 0;
 function update(elapsed:Float) {
-    if (drainEnabled && drainTimer > 0) {
+    if (drainEnabled && drainTimer > 0 && !Options.botPlay) {
         if (health >= 0.15) health -= 0.05 * (drainAmount * (didDamage ? .65 : 1)) * elapsed;
         drainTimer -= elapsed;
     }
@@ -103,7 +103,7 @@ function pluOUT() {
 }
 
 function fadeSansStrums(salpha:String) {
-    if (!FlxG.save.data.mechanics) return;
+    if (!FlxG.save.data.mechanics || Options.botPlay) return;
     var falpha = Std.parseFloat(salpha);
     for (k=>s in strumLines.members[0].members) {
         FlxTween.tween(s, {alpha: falpha}, (Conductor.stepCrochet / 1000) * 16, {ease: FlxEase.circInOut});
@@ -195,7 +195,7 @@ function onNoteUpdate(e:NoteUpdateEvent) {
 }
 
 function onDadHit()  {
-    if (!FlxG.save.data.mechanics) return;
+    if (!FlxG.save.data.mechanics || Options.botPlay) return;
     drainTimer += .12;
 }
 
