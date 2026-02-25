@@ -14,8 +14,8 @@ function create() {
     heat2.strength = 0;
 }
 function postCreate() {
-    before = strumLineBfZoom;
-    strumLineBfZoom = 1.4;
+    before = strumLineZooms[1];
+    strumLineZooms[1] = 1.4;
 
     walls.visible = false;
     door.visible = false;
@@ -34,7 +34,7 @@ function postCreate() {
 }
 
 function sansSpeaks() {
-    strumLineBfZoom = before;
+    strumLineZooms[1] = before;
     camZoomLerpMult = 0.2;
 }
 
