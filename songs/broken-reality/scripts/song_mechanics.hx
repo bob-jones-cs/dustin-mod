@@ -176,6 +176,21 @@ function onNoteUpdate(e:NoteUpdateEvent) {
             note.y -= Math.min(0, negMultY)*110;
         }
         note.y -= e.strum.height/2 * baseScrollFactor * Math.abs(Math.min(0, negMultY));
+
+        // Handle sustain clipping for in-song scroll direction flips.
+        // onNoteUpdate runs BEFORE the engine's updateSustainClip, so we must
+        // set noSustainClip=true to prevent the engine from overwriting our clip.
+        if (negMultY < 0) {
+            note.noSustainClip = true;
+            if (note.wasGoodHit) {
+                var t = FlxMath.bound((Conductor.songPosition - note.strumTime) / note.height * baseScrollFactor, 0, 1);
+                var rect = note.clipRect != null ? note.clipRect : FlxRect.get();
+                // Show top portion (shrinking downward) instead of engine's bottom portion
+                note.clipRect = rect.set(0, 0, note.frameWidth, note.frameHeight * (1 - t));
+            }
+        } else {
+            note.noSustainClip = false;
+        }
     }
 }
 
