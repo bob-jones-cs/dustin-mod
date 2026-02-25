@@ -17,6 +17,7 @@ var lyricsConfig = {
 }
 
 var textGroup:FlxTypedGroup;
+var textPool:Array<FlxText> = [];
 var __cachedFont:String;
 
 function create()
@@ -76,23 +77,34 @@ function addText(setText)
                 if(i.alpha == 0)
                 {
                     textGroup.remove(i, true);
-                    i.destroy();
+                    textPool.push(i);
                 }
             }});
-        } else {
-            textGroup.remove(i, true);
-            i.destroy();
         }
-
     }
-    var text = new FlxText(0, 500);
+
+    if (!lyricsConfig.showHistory) {
+        while (textGroup.members.length > 0) {
+            var old = textGroup.members[0];
+            textGroup.remove(old, true);
+            textPool.push(old);
+        }
+    }
+
+    var text:FlxText;
+    if (textPool.length > 0) {
+        text = textPool.pop();
+        text.alpha = 1;
+    } else {
+        text = new FlxText(0, 500);
+        text.cameras = [camHUD2];
+    }
     text.setFormat(__cachedFont, lyricsConfig.size, lyricsConfig.color, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, lyricsConfig.borderColor);
     text.borderSize = lyricsConfig.borderSize;
     text.text = setText;
     text.screenCenter(FlxAxes.X);
     text.x += lyricsConfig.xOffset;
-    text.y += lyricsConfig.yOffset;
-    text.cameras = [camHUD2];
+    text.y = 500 + lyricsConfig.yOffset;
     textGroup.add(text);
 }
 
@@ -114,15 +126,16 @@ function killText()
     {
         FlxTween.tween(i, {alpha: 0}, 0.3, {ease: FlxEase.cubeOut, onComplete: function(t){
             textGroup.remove(i, true);
-            i.destroy();
+            textPool.push(i);
         }});
     }
 }
 
 function killTextULTRA()
 {
-    for(i in textGroup.members)
-    {
-        i.destroy();
+    while (textGroup.members.length > 0) {
+        var i = textGroup.members[0];
+        textGroup.remove(i, true);
+        textPool.push(i);
     }
 }
