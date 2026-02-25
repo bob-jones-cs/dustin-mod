@@ -82,7 +82,7 @@ function doblaster_timer() {
 }
 
 function stepHit(step:Int) {
-    if (!FlxG.save.data.mechanics)
+    if (!FlxG.save.data.mechanics || Options.botPlay)
         return;
 
     switch (step) {
