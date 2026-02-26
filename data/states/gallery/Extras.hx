@@ -279,6 +279,7 @@ function update(elapsed:Float) {
     }
 
     if (controls.BACK) {
+        CoolUtil.playMenuSFX(2);
         if (!FlxG.sound.music.playing) {
             FlxG.sound.music.resume();
         }

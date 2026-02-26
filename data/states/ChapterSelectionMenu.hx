@@ -121,6 +121,7 @@ function update(elapsed:Float) {
     FlxG.camera.scroll.x = lerp(FlxG.camera.scroll.x, curCard.x + curCard.width / 2 - FlxG.width / 2, 0.15);
 
     if (controls.BACK) {
+        CoolUtil.playMenuSFX(2);
         FlxG.switchState(new ModState("NewStoryMenu"));
     }
 

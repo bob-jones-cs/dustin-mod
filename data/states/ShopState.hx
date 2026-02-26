@@ -301,8 +301,10 @@ function update(elapsed:Float) {
     if ((controls.LEFT_P || controls.RIGHT_P) && ["PLEASE TAKE IT.", "DO YOU WISH TO ACQUIRE THIS ITEM?"].contains(dialogueTxt.text))
         changeYesno(controls.LEFT_P ? -1 : 1);
 
-    if (controls.BACK)
+    if (controls.BACK) {
+        CoolUtil.playMenuSFX(2);
         exit();
+    }
 }
 
 function exit() {

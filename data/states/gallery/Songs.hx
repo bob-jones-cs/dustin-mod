@@ -147,12 +147,14 @@ function create():Void {
 
 function update(elapsed:Float):Void {
     if (infoVisible && controls.BACK) {
+        CoolUtil.playMenuSFX(2);
         cooldownTimer = 0.5;
         _hideInfo();
         return;
     }
 
     if (!infoVisible && (controls.BACK || controls.BACK)) {
+        CoolUtil.playMenuSFX(2);
         FlxG.switchState(new ModState("gallery/GalleryState"));
         return;
     }

@@ -86,6 +86,7 @@ function changeSelection(amt:Int = 0, force:Bool = false) {
 
 function update(elapsed:Float):Void {
     if (controls.BACK || controls.BACK) {
+        CoolUtil.playMenuSFX(2);
         galleryMusicStarted = false;
         FlxG.sound.music.stop();
         FlxG.switchState(new MainMenuState());

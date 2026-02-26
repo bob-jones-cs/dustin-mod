@@ -266,6 +266,7 @@ function update(elapsed:Float) {
     }
 
     if (controls.BACK && !isAnimating && !isTransitioning) {
+        CoolUtil.playMenuSFX(2);
         if (infoVisible) {
             if (spBox.visible) hideContent("thanks");
             else hideContent("credits");

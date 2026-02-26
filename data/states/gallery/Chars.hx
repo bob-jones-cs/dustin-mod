@@ -204,8 +204,10 @@ function update(elapsed:Float):Void {
         animateArrow(rightArrow);
     }
 
-    if (controls.BACK)
+    if (controls.BACK) {
+        CoolUtil.playMenuSFX(2);
         FlxG.switchState(new ModState("gallery/GalleryState"));
+    }
 }
 
 function postUpdate(elapsed:Float):Void {
