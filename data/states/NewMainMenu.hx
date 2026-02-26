@@ -133,7 +133,7 @@ function changeSelection(amt:Int = 0, force:Bool = false) {
 
     for (a in options) a.color = (a.ID == curSelected) ? 0xFFFFFF00 : 0xFFFFFFFF;
 
-    if (prevSelected != curSelected) FlxG.sound.play(Paths.sound("menu/scroll"), 0.5);
+    if (prevSelected != curSelected) CoolUtil.playMenuSFX(0, 0.5);
 }
 
 function postUpdate(elapsed:Float) {

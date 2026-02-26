@@ -175,7 +175,7 @@ function updateSelection(amt:Int) {
     curSelected = FlxMath.wrap(curSelected + amt, 0, songCards.length - 1);
 
     if (amt != 0)
-        FlxG.sound.play(Paths.sound("menu/scroll"), 1);
+        CoolUtil.playMenuSFX(0);
 
     for (i => card in songCards) {
         card.outline.color = i == curSelected ? YELLOW : WHITE;

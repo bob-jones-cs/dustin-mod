@@ -81,7 +81,7 @@ function changeSelection(amt:Int = 0, force:Bool = false) {
     }
 
     if (prevSelected != curSelected)
-        FlxG.sound.play(Paths.sound("menu/scroll"), 0.5);
+        CoolUtil.playMenuSFX(0, 0.5);
 }
 
 function update(elapsed:Float):Void {

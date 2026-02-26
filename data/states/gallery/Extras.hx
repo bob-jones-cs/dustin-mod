@@ -394,7 +394,7 @@ function showPreview(index:Int):Void {
 
 function animateArrow(sprite:FlxText):Void {
     FlxTween.cancelTweensOf(sprite);
-    FlxG.sound.play(Paths.sound("menu/scroll"), 1);
+    CoolUtil.playMenuSFX(0);
 
     FlxTween.tween(sprite.scale, { x:1.2, y:1.2 }, 0.1, {
         type: FlxTweenType.PINGPONG,

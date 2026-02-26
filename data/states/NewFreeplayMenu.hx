@@ -351,7 +351,7 @@ function changeSelection(amt:Int, force:Bool = false) {
     curSelected = force ? amt : FlxMath.wrap(curSelected + amt, 0, boxes.length - 1);
 
     if (prevSelected != curSelected) {
-        FlxG.sound.play(Paths.sound("menu/scroll"), 0.5);
+        CoolUtil.playMenuSFX(0, 0.5);
 
         oldstatic.strength = 260;
         tape_noise.strength = 4;

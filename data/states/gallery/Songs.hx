@@ -191,7 +191,7 @@ function _showInfo():Void {
     titleText.set_text(current.title);
     storyText.set_text(current.story);
 
-    overlay.set_alpha(0); 
+    overlay.set_alpha(0);
     FlxTween.tween(overlay, { alpha: 0.9 }, 0.4, { ease: FlxEase.quadInOut });
 
     infoFrame.set_alpha(1); infoBackground.set_alpha(1);
@@ -277,7 +277,7 @@ function updateImage():Void {
 
 function animateArrow(sprite:FlxText):Void {
     FlxTween.cancelTweensOf(sprite);
-    FlxG.sound.play(Paths.sound("menu/scroll"), 1);
+    CoolUtil.playMenuSFX(0);
 
     FlxTween.tween(sprite.scale, { x:1.2, y:1.2 }, 0.1, {
         type: FlxTweenType.PINGPONG,
