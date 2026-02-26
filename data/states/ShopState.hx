@@ -258,7 +258,8 @@ function update(elapsed:Float) {
         if (dialogues[curDialogue] != null)
             if (dialogueEnded) yap(dialogues[curDialogue]); else dialogueTxtObj.skip(dialogueTxtObj);
         else if (!["", "DO YOU WISH TO ACQUIRE THIS ITEM?", "PLEASE TAKE IT."].contains(dialogueTxt.text)) {
-            FlxG.sound.play(Paths.sound("menu/confirm"), Options.volumeSFX);
+            var snd = FlxG.sound.play(Paths.sound("menu/confirm"), Options.volumeSFX);
+            if (snd != null) snd.persist = true;
             if (dialogueTxt.text == "I WILL BE WATCHING FROM THE DARK.") FlxTween.tween(gaster, {alpha: 0}, 1);
             if (dialogueTxt.text == "FOR NOW,\nENJOY THE VESSEL I HAVE PREPARED.") exit();
             dialogueTxt.text = ["I WILL BE WATCHING FROM THE DARK.", " "].contains(dialogueTxt.text) ? " " : "";
@@ -302,7 +303,8 @@ function update(elapsed:Float) {
         changeYesno(controls.LEFT_P ? -1 : 1);
 
     if (controls.BACK) {
-        FlxG.sound.play(Paths.sound("menu/cancel"), Options.volumeSFX);
+        var snd = FlxG.sound.play(Paths.sound("menu/cancel"), Options.volumeSFX);
+        if (snd != null) snd.persist = true;
         exit();
     }
 }

@@ -283,7 +283,8 @@ function update(elapsed) {
         glitch.iTime = iTime;
 
         if (controls.BACK) {
-            FlxG.sound.play(Paths.sound("menu/cancel"), 0.7 * Options.volumeSFX);
+            var snd = FlxG.sound.play(Paths.sound("menu/cancel"), 0.7 * Options.volumeSFX);
+            if (snd != null) snd.persist = true;
             FlxG.switchState(new MainMenuState());
         }
     }

@@ -330,7 +330,8 @@ function update(elapsed:Float) {
     FlxG.camera.scroll.y = lerp(FlxG.camera.scroll.y, curBox.outline.y + curBox.outline.height / 2 - FlxG.height / 2, 0.1);
 
     if (allowInput && (controls.BACK || FlxG.keys.justPressed.ESCAPE)) {
-        FlxG.sound.play(Paths.sound("menu/cancel"), Options.volumeSFX);
+        var snd = FlxG.sound.play(Paths.sound("menu/cancel"), Options.volumeSFX);
+        if (snd != null) snd.persist = true;
         FlxG.switchState(new MainMenuState());
     }
 

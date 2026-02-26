@@ -121,12 +121,14 @@ function update(elapsed:Float) {
     FlxG.camera.scroll.x = lerp(FlxG.camera.scroll.x, curCard.x + curCard.width / 2 - FlxG.width / 2, 0.15);
 
     if (controls.BACK) {
-        FlxG.sound.play(Paths.sound("menu/cancel"), Options.volumeSFX);
+        var snd = FlxG.sound.play(Paths.sound("menu/cancel"), Options.volumeSFX);
+        if (snd != null) snd.persist = true;
         FlxG.switchState(new ModState("NewStoryMenu"));
     }
 
     if ((controls.ACCEPT || FlxG.mouse.justPressed) && curCard.ID == 0) {
-        FlxG.sound.play(Paths.sound("menu/confirm"), Options.volumeSFX);
+        var snd = FlxG.sound.play(Paths.sound("menu/confirm"), Options.volumeSFX);
+        if (snd != null) snd.persist = true;
         selectWeek();
     }
 }

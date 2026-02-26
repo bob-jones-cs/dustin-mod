@@ -128,5 +128,7 @@ function onChangeItem(e) {
 		utItems[i].alpha = (i == e.value) ? 1 : 0.6;
 }
 
-function onSelectOption(e)
-	FlxG.sound.play(Paths.sound("menu/confirm"), Options.volumeSFX);
+function onSelectOption(e) {
+	var snd = FlxG.sound.play(Paths.sound("menu/confirm"), Options.volumeSFX);
+	if (snd != null) snd.persist = true;
+}

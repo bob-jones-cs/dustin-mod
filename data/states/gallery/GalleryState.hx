@@ -86,7 +86,8 @@ function changeSelection(amt:Int = 0, force:Bool = false) {
 
 function update(elapsed:Float):Void {
     if (controls.BACK || controls.BACK) {
-        FlxG.sound.play(Paths.sound("menu/cancel"), Options.volumeSFX);
+        var snd = FlxG.sound.play(Paths.sound("menu/cancel"), Options.volumeSFX);
+        if (snd != null) snd.persist = true;
         galleryMusicStarted = false;
         FlxG.sound.music.stop();
         FlxG.switchState(new MainMenuState());
@@ -112,7 +113,8 @@ function update(elapsed:Float):Void {
 }
 
 function selectOption() {
-    FlxG.sound.play(Paths.sound("menu/confirm"), Options.volumeSFX);
+    var snd = FlxG.sound.play(Paths.sound("menu/confirm"), Options.volumeSFX);
+    if (snd != null) snd.persist = true;
     switch (curSelected) {
         case 0: FlxG.switchState(new ModState("gallery/Chars"));
         case 1: FlxG.switchState(new ModState("gallery/Songs"));

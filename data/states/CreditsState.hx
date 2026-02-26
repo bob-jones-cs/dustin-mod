@@ -266,7 +266,8 @@ function update(elapsed:Float) {
     }
 
     if (controls.BACK && !isAnimating && !isTransitioning) {
-        FlxG.sound.play(Paths.sound("menu/cancel"), Options.volumeSFX);
+        var snd = FlxG.sound.play(Paths.sound("menu/cancel"), Options.volumeSFX);
+        if (snd != null) snd.persist = true;
         if (infoVisible) {
             if (spBox.visible) hideContent("thanks");
             else hideContent("credits");

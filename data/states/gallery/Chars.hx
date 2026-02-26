@@ -205,7 +205,8 @@ function update(elapsed:Float):Void {
     }
 
     if (controls.BACK) {
-        FlxG.sound.play(Paths.sound("menu/cancel"), Options.volumeSFX);
+        var snd = FlxG.sound.play(Paths.sound("menu/cancel"), Options.volumeSFX);
+        if (snd != null) snd.persist = true;
         FlxG.switchState(new ModState("gallery/GalleryState"));
     }
 }

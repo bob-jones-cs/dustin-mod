@@ -163,7 +163,8 @@ function postUpdate(elapsed:Float) {
 }
 
 function select() {
-    FlxG.sound.play(Paths.sound("menu/confirm"), Options.volumeSFX);
+    var snd = FlxG.sound.play(Paths.sound("menu/confirm"), Options.volumeSFX);
+    if (snd != null) snd.persist = true;
     switch (_list[curSelected]) {
         case "STORY MODE": FlxG.switchState(new StoryMenuState());
         case "FREEPLAY": FlxG.switchState(new ModState("NewFreeplayMenu"));

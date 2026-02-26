@@ -52,7 +52,8 @@ var __timer:Float = 0;
 function update(elapsed:Float) {
     __timer += elapsed;
     if (controls.ACCEPT || FlxG.mouse.justPressed) {
-        FlxG.sound.play(Paths.sound("menu/confirm"), Options.volumeSFX);
+        var snd = FlxG.sound.play(Paths.sound("menu/confirm"), Options.volumeSFX);
+        if (snd != null) snd.persist = true;
         FlxG.camera.visible = false;
         goToTitle();
     }
