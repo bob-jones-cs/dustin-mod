@@ -81,12 +81,12 @@ function changeSelection(amt:Int = 0, force:Bool = false) {
     }
 
     if (prevSelected != curSelected)
-        CoolUtil.playMenuSFX(0, 0.5);
+        FlxG.sound.play(Paths.sound("menu/scroll"), 0.5 * Options.volumeSFX);
 }
 
 function update(elapsed:Float):Void {
     if (controls.BACK || controls.BACK) {
-        CoolUtil.playMenuSFX(2);
+        FlxG.sound.play(Paths.sound("menu/cancel"), Options.volumeSFX);
         galleryMusicStarted = false;
         FlxG.sound.music.stop();
         FlxG.switchState(new MainMenuState());
@@ -112,7 +112,7 @@ function update(elapsed:Float):Void {
 }
 
 function selectOption() {
-    CoolUtil.playMenuSFX(1);
+    FlxG.sound.play(Paths.sound("menu/confirm"), Options.volumeSFX);
     switch (curSelected) {
         case 0: FlxG.switchState(new ModState("gallery/Chars"));
         case 1: FlxG.switchState(new ModState("gallery/Songs"));

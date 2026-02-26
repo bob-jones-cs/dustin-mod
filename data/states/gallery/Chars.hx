@@ -130,7 +130,7 @@ function changeSelection(amt:Int=0, force:Bool=false) {
     }
 
     if (prevCat != curCat) {
-        CoolUtil.playMenuSFX(0, 0.5);
+        FlxG.sound.play(Paths.sound("menu/scroll"), 0.5 * Options.volumeSFX);
         animateCharacter(1, amt);
         changeCooldown = changeCooldownTime;
     }
@@ -205,7 +205,7 @@ function update(elapsed:Float):Void {
     }
 
     if (controls.BACK) {
-        CoolUtil.playMenuSFX(2);
+        FlxG.sound.play(Paths.sound("menu/cancel"), Options.volumeSFX);
         FlxG.switchState(new ModState("gallery/GalleryState"));
     }
 }
@@ -218,7 +218,7 @@ function postUpdate(elapsed:Float):Void {
 
 function animateArrow(sprite:FlxText):Void {
     FlxTween.cancelTweensOf(sprite);
-    CoolUtil.playMenuSFX(0);
+    FlxG.sound.play(Paths.sound("menu/scroll"), Options.volumeSFX);
 
     FlxTween.tween(sprite.scale, { x:1.2, y:1.2 }, 0.1, {
         type: FlxTweenType.PINGPONG,

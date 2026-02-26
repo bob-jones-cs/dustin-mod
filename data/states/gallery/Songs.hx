@@ -147,14 +147,14 @@ function create():Void {
 
 function update(elapsed:Float):Void {
     if (infoVisible && controls.BACK) {
-        CoolUtil.playMenuSFX(2);
+        FlxG.sound.play(Paths.sound("menu/cancel"), Options.volumeSFX);
         cooldownTimer = 0.5;
         _hideInfo();
         return;
     }
 
     if (!infoVisible && (controls.BACK || controls.BACK)) {
-        CoolUtil.playMenuSFX(2);
+        FlxG.sound.play(Paths.sound("menu/cancel"), Options.volumeSFX);
         FlxG.switchState(new ModState("gallery/GalleryState"));
         return;
     }
@@ -177,10 +177,10 @@ function update(elapsed:Float):Void {
     if (FlxG.keys.justPressed.ENTER) {
         cooldownTimer = 0.5;
         if (!infoVisible) {
-            CoolUtil.playMenuSFX(1);
+            FlxG.sound.play(Paths.sound("menu/confirm"), Options.volumeSFX);
             _showInfo();
         } else {
-            CoolUtil.playMenuSFX(2);
+            FlxG.sound.play(Paths.sound("menu/cancel"), Options.volumeSFX);
             _hideInfo();
         }
     }
@@ -277,7 +277,7 @@ function updateImage():Void {
 
 function animateArrow(sprite:FlxText):Void {
     FlxTween.cancelTweensOf(sprite);
-    CoolUtil.playMenuSFX(0);
+    FlxG.sound.play(Paths.sound("menu/scroll"), Options.volumeSFX);
 
     FlxTween.tween(sprite.scale, { x:1.2, y:1.2 }, 0.1, {
         type: FlxTweenType.PINGPONG,

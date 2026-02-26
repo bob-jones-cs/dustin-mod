@@ -206,12 +206,12 @@ function update(elapsed:Float) {
         if (controls.UP_P) {
             selectedIdx = (selectedIdx - 1 + gallerySprites.length) % gallerySprites.length;
             focusMode = "keyboard";
-            CoolUtil.playMenuSFX(0);
+            FlxG.sound.play(Paths.sound("menu/scroll"), Options.volumeSFX);
         }
         if (controls.DOWN_P) {
             selectedIdx = (selectedIdx + 1) % gallerySprites.length;
             focusMode = "keyboard";
-            CoolUtil.playMenuSFX(0);
+            FlxG.sound.play(Paths.sound("menu/scroll"), Options.volumeSFX);
         }
 
         if (focusMode == "keyboard") {
@@ -244,7 +244,7 @@ function update(elapsed:Float) {
             if (focusMode != "mouse" || selectedIdx != i) {
                 selectedIdx = i;
                 focusMode = "mouse";
-                CoolUtil.playMenuSFX(0);
+                FlxG.sound.play(Paths.sound("menu/scroll"), Options.volumeSFX);
             }
         }
 
@@ -253,7 +253,7 @@ function update(elapsed:Float) {
         }
 
         if (mouseHover && FlxG.mouse.justPressed) {
-            CoolUtil.playMenuSFX(1);
+            FlxG.sound.play(Paths.sound("menu/confirm"), Options.volumeSFX);
             showPreview(i);
         }
 
@@ -262,7 +262,7 @@ function update(elapsed:Float) {
     }
 
     if (controls.ACCEPT && gallerySprites.length > 0) {
-        CoolUtil.playMenuSFX(1);
+        FlxG.sound.play(Paths.sound("menu/confirm"), Options.volumeSFX);
         showPreview(selectedIdx);
     }
 
@@ -279,7 +279,7 @@ function update(elapsed:Float) {
     }
 
     if (controls.BACK) {
-        CoolUtil.playMenuSFX(2);
+        FlxG.sound.play(Paths.sound("menu/cancel"), Options.volumeSFX);
         if (!FlxG.sound.music.playing) {
             FlxG.sound.music.resume();
         }
@@ -394,7 +394,7 @@ function showPreview(index:Int):Void {
 
 function animateArrow(sprite:FlxText):Void {
     FlxTween.cancelTweensOf(sprite);
-    CoolUtil.playMenuSFX(0);
+    FlxG.sound.play(Paths.sound("menu/scroll"), Options.volumeSFX);
 
     FlxTween.tween(sprite.scale, { x:1.2, y:1.2 }, 0.1, {
         type: FlxTweenType.PINGPONG,

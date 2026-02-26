@@ -228,7 +228,7 @@ function update(elapsed) {
             if (kbMoved) {
                 focusMode = "keyboard";
                 focusIdx = focusRow == 0 ? topIdx : bottomIdxs[focusCol];
-                CoolUtil.playMenuSFX(0);
+                FlxG.sound.play(Paths.sound("menu/scroll"), Options.volumeSFX);
             }
 
             if (mouseEnabled && FlxG.mouse.justMoved) {
@@ -237,7 +237,7 @@ function update(elapsed) {
                     if (FlxG.mouse.overlaps(i) && i.color != FlxColor.BLACK) {
                         if (focusIdx != i.ID) {
                             focusIdx = i.ID;
-                            CoolUtil.playMenuSFX(0);
+                            FlxG.sound.play(Paths.sound("menu/scroll"), Options.volumeSFX);
                         }
                     }
                 }
@@ -283,7 +283,7 @@ function update(elapsed) {
         glitch.iTime = iTime;
 
         if (controls.BACK) {
-            CoolUtil.playMenuSFX(2, 0.7);
+            FlxG.sound.play(Paths.sound("menu/cancel"), 0.7 * Options.volumeSFX);
             FlxG.switchState(new MainMenuState());
         }
     }

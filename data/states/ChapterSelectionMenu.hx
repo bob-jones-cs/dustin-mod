@@ -121,12 +121,12 @@ function update(elapsed:Float) {
     FlxG.camera.scroll.x = lerp(FlxG.camera.scroll.x, curCard.x + curCard.width / 2 - FlxG.width / 2, 0.15);
 
     if (controls.BACK) {
-        CoolUtil.playMenuSFX(2);
+        FlxG.sound.play(Paths.sound("menu/cancel"), Options.volumeSFX);
         FlxG.switchState(new ModState("NewStoryMenu"));
     }
 
     if ((controls.ACCEPT || FlxG.mouse.justPressed) && curCard.ID == 0) {
-        CoolUtil.playMenuSFX(1);
+        FlxG.sound.play(Paths.sound("menu/confirm"), Options.volumeSFX);
         selectWeek();
     }
 }
@@ -175,7 +175,7 @@ function updateSelection(amt:Int) {
     curSelected = FlxMath.wrap(curSelected + amt, 0, songCards.length - 1);
 
     if (amt != 0)
-        CoolUtil.playMenuSFX(0);
+        FlxG.sound.play(Paths.sound("menu/scroll"), Options.volumeSFX);
 
     for (i => card in songCards) {
         card.outline.color = i == curSelected ? YELLOW : WHITE;

@@ -258,7 +258,7 @@ function update(elapsed:Float) {
         if (dialogues[curDialogue] != null)
             if (dialogueEnded) yap(dialogues[curDialogue]); else dialogueTxtObj.skip(dialogueTxtObj);
         else if (!["", "DO YOU WISH TO ACQUIRE THIS ITEM?", "PLEASE TAKE IT."].contains(dialogueTxt.text)) {
-            CoolUtil.playMenuSFX(1);
+            FlxG.sound.play(Paths.sound("menu/confirm"), Options.volumeSFX);
             if (dialogueTxt.text == "I WILL BE WATCHING FROM THE DARK.") FlxTween.tween(gaster, {alpha: 0}, 1);
             if (dialogueTxt.text == "FOR NOW,\nENJOY THE VESSEL I HAVE PREPARED.") exit();
             dialogueTxt.text = ["I WILL BE WATCHING FROM THE DARK.", " "].contains(dialogueTxt.text) ? " " : "";
@@ -271,7 +271,7 @@ function update(elapsed:Float) {
             dialogues = dialogue[items[curItem].text.toLowerCase()] != null ? dialogue[items[curItem].text.toLowerCase()] : [["DO YOU WISH TO ACQUIRE THIS ITEM?", "talk"]];
             yap(dialogues[curDialogue = 0]);
         } else if (["PLEASE TAKE IT.", "DO YOU WISH TO ACQUIRE THIS ITEM?"].contains(dialogueTxt.text)) {
-            CoolUtil.playMenuSFX(1);
+            FlxG.sound.play(Paths.sound("menu/confirm"), Options.volumeSFX);
             var hawktuah:String = curYesno == 0 ? (FlxG.save.data.dustinCash - itemmap[items[curItem].text.toLowerCase()][1] >= 0? "buySuccess" : "buyFail") : "buyCancel";
             dialogues = dialogue[hawktuah];
             if (hawktuah == "buySuccess") {
@@ -302,7 +302,7 @@ function update(elapsed:Float) {
         changeYesno(controls.LEFT_P ? -1 : 1);
 
     if (controls.BACK) {
-        CoolUtil.playMenuSFX(2);
+        FlxG.sound.play(Paths.sound("menu/cancel"), Options.volumeSFX);
         exit();
     }
 }
@@ -332,7 +332,7 @@ function changeSel(_:Int, ?hello:Bool) {
             changeSel(_ == 0 ? 1 : _, false);
             return;
         }
-        if (_ != 0 && !hello) CoolUtil.playMenuSFX();
+        if (_ != 0 && !hello) FlxG.sound.play(Paths.sound("menu/scroll"), Options.volumeSFX);
         if (items[curItem].visible) {
             itemKeys.visible = !(itemCD.visible = StringTools.endsWith(items[curItem].text, "CD"));
             (itemKeys.visible ? itemKeys : itemCD).playAnim(items[curItem].text.toLowerCase());
@@ -346,7 +346,7 @@ function changeSel(_:Int, ?hello:Bool) {
 }
 
 function changeYesno(_:Int) {
-	if (_ != 0) CoolUtil.playMenuSFX();
+	if (_ != 0) FlxG.sound.play(Paths.sound("menu/scroll"), Options.volumeSFX);
     curYesno = FlxMath.wrap(curYesno + _, 0, yesno.length - 1);
     FlxTween.cancelTweensOf(heart);
 

@@ -330,7 +330,7 @@ function update(elapsed:Float) {
     FlxG.camera.scroll.y = lerp(FlxG.camera.scroll.y, curBox.outline.y + curBox.outline.height / 2 - FlxG.height / 2, 0.1);
 
     if (allowInput && (controls.BACK || FlxG.keys.justPressed.ESCAPE)) {
-        CoolUtil.playMenuSFX(2);
+        FlxG.sound.play(Paths.sound("menu/cancel"), Options.volumeSFX);
         FlxG.switchState(new MainMenuState());
     }
 
@@ -351,7 +351,7 @@ function changeSelection(amt:Int, force:Bool = false) {
     curSelected = force ? amt : FlxMath.wrap(curSelected + amt, 0, boxes.length - 1);
 
     if (prevSelected != curSelected) {
-        CoolUtil.playMenuSFX(0, 0.5);
+        FlxG.sound.play(Paths.sound("menu/scroll"), 0.5 * Options.volumeSFX);
 
         oldstatic.strength = 260;
         tape_noise.strength = 4;

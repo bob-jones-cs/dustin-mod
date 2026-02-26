@@ -256,17 +256,17 @@ function update(elapsed:Float) {
 
     if (FlxG.keys.justPressed.ENTER && !isAnimating) {
     if (!infoVisible && !spBox.visible) {
-        CoolUtil.playMenuSFX(1);
+        FlxG.sound.play(Paths.sound("menu/confirm"), Options.volumeSFX);
         showContent("credits");
         updateLine();
     } else if (!spBox.visible) {
-        CoolUtil.playMenuSFX(2);
+        FlxG.sound.play(Paths.sound("menu/cancel"), Options.volumeSFX);
         hideContent("credits");
     }
     }
 
     if (controls.BACK && !isAnimating && !isTransitioning) {
-        CoolUtil.playMenuSFX(2);
+        FlxG.sound.play(Paths.sound("menu/cancel"), Options.volumeSFX);
         if (infoVisible) {
             if (spBox.visible) hideContent("thanks");
             else hideContent("credits");
@@ -299,7 +299,7 @@ function update(elapsed:Float) {
             }
         }
     } else if (FlxG.mouse.justPressed && FlxG.mouse.overlaps(door) && !isAnimating) {
-        CoolUtil.playMenuSFX(1);
+        FlxG.sound.play(Paths.sound("menu/confirm"), Options.volumeSFX);
         showContent("thanks");
     }
 }
@@ -508,7 +508,7 @@ function devTransition(dir:Int):Void {
 
 function animateArrow(sprite:FlxText):Void {
     FlxTween.cancelTweensOf(sprite);
-    CoolUtil.playMenuSFX(0);
+    FlxG.sound.play(Paths.sound("menu/scroll"), Options.volumeSFX);
 
     FlxTween.tween(sprite.scale, { x:1.2, y:1.2 }, 0.1, {
         type: FlxTweenType.PINGPONG,

@@ -52,7 +52,7 @@ var __timer:Float = 0;
 function update(elapsed:Float) {
     __timer += elapsed;
     if (controls.ACCEPT || FlxG.mouse.justPressed) {
-        CoolUtil.playMenuSFX(1);
+        FlxG.sound.play(Paths.sound("menu/confirm"), Options.volumeSFX);
         FlxG.camera.visible = false;
         goToTitle();
     }

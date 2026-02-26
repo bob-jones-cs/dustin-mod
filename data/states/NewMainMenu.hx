@@ -133,7 +133,7 @@ function changeSelection(amt:Int = 0, force:Bool = false) {
 
     for (a in options) a.color = (a.ID == curSelected) ? 0xFFFFFF00 : 0xFFFFFFFF;
 
-    if (prevSelected != curSelected) CoolUtil.playMenuSFX(0, 0.5);
+    if (prevSelected != curSelected) FlxG.sound.play(Paths.sound("menu/scroll"), 0.5 * Options.volumeSFX);
 }
 
 function postUpdate(elapsed:Float) {
@@ -163,7 +163,7 @@ function postUpdate(elapsed:Float) {
 }
 
 function select() {
-    CoolUtil.playMenuSFX(1);
+    FlxG.sound.play(Paths.sound("menu/confirm"), Options.volumeSFX);
     switch (_list[curSelected]) {
         case "STORY MODE": FlxG.switchState(new StoryMenuState());
         case "FREEPLAY": FlxG.switchState(new ModState("NewFreeplayMenu"));

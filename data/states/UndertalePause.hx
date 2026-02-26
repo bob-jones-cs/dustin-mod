@@ -122,11 +122,11 @@ function update(elapsed:Float) {
 function onChangeItem(e) {
 	FlxTween.cancelTweensOf(heart);
 	FlxTween.tween(heart, {y: utItems[e.value]?.y + (utItems[e.value].height - heart.height)/2}, 0.25, {ease: FlxEase.backOut});
-	CoolUtil.playMenuSFX();
+	FlxG.sound.play(Paths.sound("menu/scroll"), Options.volumeSFX);
 
 	for (i in 0...utItems.length)
 		utItems[i].alpha = (i == e.value) ? 1 : 0.6;
 }
 
 function onSelectOption(e)
-	CoolUtil.playMenuSFX(1);
+	FlxG.sound.play(Paths.sound("menu/confirm"), Options.volumeSFX);
