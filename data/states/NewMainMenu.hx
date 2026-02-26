@@ -163,7 +163,7 @@ function postUpdate(elapsed:Float) {
 }
 
 function select() {
-    FlxG.sound.play(Paths.sound("menu/select"), 0.9);
+    CoolUtil.playMenuSFX(1);
     switch (_list[curSelected]) {
         case "STORY MODE": FlxG.switchState(new StoryMenuState());
         case "FREEPLAY": FlxG.switchState(new ModState("NewFreeplayMenu"));

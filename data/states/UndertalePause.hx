@@ -111,7 +111,7 @@ function update(elapsed:Float) {
 	if (accepted || FlxG.mouse.justPressed)
 		selectOption();
 
-	for (i in utItems) 
+	for (i in utItems)
 		i.x = top.x + __offsets[0];
 	statText.x = bottom.x + __offsets[1];
 	heart.x = utItems[curSelected]?.x - __offsets[2];
@@ -129,4 +129,4 @@ function onChangeItem(e) {
 }
 
 function onSelectOption(e)
-	FlxG.sound.play(Paths.sound("menu/select"));
+	CoolUtil.playMenuSFX(1);

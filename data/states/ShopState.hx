@@ -185,7 +185,7 @@ function create() {
         }
     kms.remove("* Keys");
     kms.remove("* CDs");
-        
+
     for (a in yesno) {
         add(a).font = Paths.font("8bit-jve.ttf");
         a.visible = false;
@@ -244,7 +244,7 @@ var time:Float = FlxG.random.float(100, 1000);
 function update(elapsed:Float) {
     updateFunkinTypeText(elapsed, dialogueTxtObj);
 
-    FlxG.camera.scroll.x = FlxMath.lerp(FlxG.camera.scroll.x, camOFFX, 0.03); 
+    FlxG.camera.scroll.x = FlxMath.lerp(FlxG.camera.scroll.x, camOFFX, 0.03);
     if (Options.gameplayShaders && FlxG.save.data.water) bg.shader?.time = time += elapsed;
 
     for (a in items)
@@ -258,7 +258,7 @@ function update(elapsed:Float) {
         if (dialogues[curDialogue] != null)
             if (dialogueEnded) yap(dialogues[curDialogue]); else dialogueTxtObj.skip(dialogueTxtObj);
         else if (!["", "DO YOU WISH TO ACQUIRE THIS ITEM?", "PLEASE TAKE IT."].contains(dialogueTxt.text)) {
-            FlxG.sound.play(Paths.sound("menu/select"));
+            CoolUtil.playMenuSFX(1);
             if (dialogueTxt.text == "I WILL BE WATCHING FROM THE DARK.") FlxTween.tween(gaster, {alpha: 0}, 1);
             if (dialogueTxt.text == "FOR NOW,\nENJOY THE VESSEL I HAVE PREPARED.") exit();
             dialogueTxt.text = ["I WILL BE WATCHING FROM THE DARK.", " "].contains(dialogueTxt.text) ? " " : "";
@@ -271,7 +271,7 @@ function update(elapsed:Float) {
             dialogues = dialogue[items[curItem].text.toLowerCase()] != null ? dialogue[items[curItem].text.toLowerCase()] : [["DO YOU WISH TO ACQUIRE THIS ITEM?", "talk"]];
             yap(dialogues[curDialogue = 0]);
         } else if (["PLEASE TAKE IT.", "DO YOU WISH TO ACQUIRE THIS ITEM?"].contains(dialogueTxt.text)) {
-            FlxG.sound.play(Paths.sound("menu/select"));
+            CoolUtil.playMenuSFX(1);
             var hawktuah:String = curYesno == 0 ? (FlxG.save.data.dustinCash - itemmap[items[curItem].text.toLowerCase()][1] >= 0? "buySuccess" : "buyFail") : "buyCancel";
             dialogues = dialogue[hawktuah];
             if (hawktuah == "buySuccess") {
