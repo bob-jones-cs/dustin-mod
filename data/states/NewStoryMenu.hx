@@ -180,7 +180,7 @@ function create() {
             ease: FlxEase.circInOut, onComplete: (_) -> // this is so ass im sorry i got the sounds so last minute
                 FlxTween.tween(keys[a], {x: thoseWhoKnow[lockAnimQueue[a]][5].getMidpoint().x - keys[a].width / 2, y: thoseWhoKnow[lockAnimQueue[a]][5].getMidpoint().y - keys[a].height / 2}, 1, {
                     ease: FlxEase.circInOut, startDelay: a * 5, onComplete: (_) -> {
-                        FlxG.sound.play(Paths.sound("unlocks/" + lockAnimQueue[a]));
+                        FlxG.sound.play(Paths.sound("unlocks/" + lockAnimQueue[a]), Options.volumeSFX);
                         thoseWhoKnow[lockAnimQueue[a]][5].animation.curAnim.curFrame = 1;
                         FlxTween.tween(thoseWhoKnow[lockAnimQueue[a]][5], {'scale.x': 1.1, 'scale.y': 1.1}, 1.2, {ease: FlxEase.circInOut});
                         new FlxTimer().start(0.6, () -> thoseWhoKnow[lockAnimQueue[a]][5].animation.curAnim.curFrame = 2);
@@ -315,7 +315,7 @@ function updateShake(elapsed:Float) {
 
 function select(id:Int) {
     canInput = false;
-    FlxG.sound.play(Paths.sound("menu/select_freeplay"), 1);
+    FlxG.sound.play(Paths.sound("menu/select_freeplay"), Options.volumeSFX);
     var ut = thoseWhoKnow[thoseWhoKnowTemp[id]][3];
     var locked = FunkinSave.getWeekHighscore(ut[0].id, ut[0].difficulties[0]).score <= 0;
     if (locked)

@@ -399,7 +399,7 @@ function selectSong() {
     if (curPortrait.animation.name != null) {
             if (boxes[curSelected].song.name.toLowerCase() == "you-are") {
                 FlxG.sound.music.stop();
-                FlxG.sound.play(Paths.sound("menu/youare-select"), 1);
+                FlxG.sound.play(Paths.sound("menu/youare-select"), Options.volumeSFX);
                 bg.visible = false;
                 bgtv.visible = false;
                 fg.visible = false;
@@ -471,7 +471,7 @@ function selectSong() {
 
                 FlxG.camera.shake(0.02, 0.2);
                 tvScreen.shake(0.02, 0.2);
-                FlxG.sound.play(Paths.sound("menu/select_freeplay"), 1);
+                FlxG.sound.play(Paths.sound("menu/select_freeplay"), Options.volumeSFX);
 
                 if (boxes[curSelected].song.name.toLowerCase() == "uncreate") {
                     ink.visible = true;

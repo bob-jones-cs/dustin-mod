@@ -291,7 +291,7 @@ function update(elapsed:Float) {
     }
 
     if (prevText != dialogueTxt.text) {
-        if (dialogueTxt.text != "" && !StringTools.endsWith(dialogueTxt.text, " ") && !StringTools.endsWith(dialogueTxt.text, "\n")) FlxG.sound.play(Paths.sound("wing_oggster/snd_wngdng" + FlxG.random.int(1, 7)), 0.7);
+        if (dialogueTxt.text != "" && !StringTools.endsWith(dialogueTxt.text, " ") && !StringTools.endsWith(dialogueTxt.text, "\n")) FlxG.sound.play(Paths.sound("wing_oggster/snd_wngdng" + FlxG.random.int(1, 7)), 0.7 * Options.volumeSFX);
         prevText = dialogueTxt.text;
     }
 
@@ -321,7 +321,7 @@ function changeSel(_:Int, ?hello:Bool) {
     camOFFX = 0;
     leftAlpha = 1;
 
-    if (first) FlxG.sound.play(Paths.sound("menu/gaster-vanish"), 0.2);
+    if (first) FlxG.sound.play(Paths.sound("menu/gaster-vanish"), 0.2 * Options.volumeSFX);
     first = false;
 
     curItem = FlxMath.wrap(curItem + _, 0, items.length - 1);
