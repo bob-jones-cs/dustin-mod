@@ -253,6 +253,7 @@ function update(elapsed:Float) {
         }
 
         if (mouseHover && FlxG.mouse.justPressed) {
+            CoolUtil.playMenuSFX(1);
             showPreview(i);
         }
 
@@ -261,6 +262,7 @@ function update(elapsed:Float) {
     }
 
     if (controls.ACCEPT && gallerySprites.length > 0) {
+        CoolUtil.playMenuSFX(1);
         showPreview(selectedIdx);
     }
 

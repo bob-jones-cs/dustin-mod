@@ -174,8 +174,13 @@ function update(elapsed:Float):Void {
 
     if (FlxG.keys.justPressed.ENTER) {
         cooldownTimer = 0.5;
-        if (!infoVisible) _showInfo();
-        else _hideInfo();
+        if (!infoVisible) {
+            CoolUtil.playMenuSFX(1);
+            _showInfo();
+        } else {
+            CoolUtil.playMenuSFX(2);
+            _hideInfo();
+        }
     }
 }
 

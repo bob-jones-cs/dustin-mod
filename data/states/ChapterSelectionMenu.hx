@@ -125,6 +125,7 @@ function update(elapsed:Float) {
     }
 
     if ((controls.ACCEPT || FlxG.mouse.justPressed) && curCard.ID == 0) {
+        CoolUtil.playMenuSFX(1);
         selectWeek();
     }
 }

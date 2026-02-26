@@ -256,9 +256,11 @@ function update(elapsed:Float) {
 
     if (FlxG.keys.justPressed.ENTER && !isAnimating) {
     if (!infoVisible && !spBox.visible) {
+        CoolUtil.playMenuSFX(1);
         showContent("credits");
         updateLine();
     } else if (!spBox.visible) {
+        CoolUtil.playMenuSFX(2);
         hideContent("credits");
     }
     }
@@ -295,8 +297,10 @@ function update(elapsed:Float) {
                 animateArrow(dir > 0 ? rightArrow : leftArrow);
             }
         }
-    } else if (FlxG.mouse.justPressed && FlxG.mouse.overlaps(door) && !isAnimating)
+    } else if (FlxG.mouse.justPressed && FlxG.mouse.overlaps(door) && !isAnimating) {
+        CoolUtil.playMenuSFX(1);
         showContent("thanks");
+    }
 }
 
 function showContent(mode:String):Void {

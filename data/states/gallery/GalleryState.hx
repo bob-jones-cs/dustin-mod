@@ -111,6 +111,7 @@ function update(elapsed:Float):Void {
 }
 
 function selectOption() {
+    CoolUtil.playMenuSFX(1);
     switch (curSelected) {
         case 0: FlxG.switchState(new ModState("gallery/Chars"));
         case 1: FlxG.switchState(new ModState("gallery/Songs"));
