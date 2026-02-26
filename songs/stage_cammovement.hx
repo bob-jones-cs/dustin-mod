@@ -14,8 +14,12 @@ var angle:Float = 0;
 function create() {camFollowChars = true; camAngleChars = true; camMoveOffset = 15; camAngleOffset = .3;}
 
 function postCreate() {
-    var cameraStart = strumLines.members[curCameraTarget].characters[0].getCameraPosition();
-    cameraStart.y -= 100; FlxG.camera.focusOn(cameraStart);
+    if (curCameraTarget < 0 || curCameraTarget >= strumLines.members.length) return;
+    var sl = strumLines.members[curCameraTarget];
+    if (sl == null || sl.characters[0] == null) return;
+    var cameraStart = sl.characters[0].getCameraPosition();
+    cameraStart.y -= 100;
+    FlxG.camera.focusOn(cameraStart);
 }
 
 var speedizer:Float = 0;
